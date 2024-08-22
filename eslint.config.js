@@ -42,6 +42,7 @@ export default tseslint.config(
       semi: 'error',
       '@typescript-eslint/no-explicit-any': 0,
       'comma-dangle': ['error', 'always-multiline'],
+      'react/no-unknown-property': 0,
     },
   },
 );

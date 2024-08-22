@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/nodemon.json",
+  "exec": "env-cmd -f .env.dev tsx src/server/index.js",
+  "ext": "js,ts",
+  "watch": [
+    "public/",
+    "src/server/",
+    ".env.dev",
+    "vite.config.ts"
+  ]
+}

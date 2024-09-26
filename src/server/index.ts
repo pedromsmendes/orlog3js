@@ -1,15 +1,19 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import http from 'node:http';
 
 import sirv from 'sirv';
 import chalk from 'chalk';
 import express from 'express';
+import { Server } from 'socket.io';
 import compression from 'compression';
 import packageJson from 'package.json';
-import { createServer as createViteServer, ViteDevServer } from 'vite';
+import type { ViteDevServer } from 'vite';
+import { createServer as createViteServer } from 'vite';
 
-import { IN_PROD, PORT } from '@/globals';
-import { validateEnvVariables } from '@/tools/envValidation';
+import { IN_PROD, PORT } from '@/shared/globals';
+
+import { validateEnvVariables } from './tools/envValidation';
 
 validateEnvVariables([
   'NODE_ENV',
@@ -59,8 +63,8 @@ const createServer = async () => {
       const rendered = await render(url);
 
       const html = template
-        ?.replace(`<!--app-head-->`, rendered.head ?? '')
-        ?.replace(`<!--app-html-->`, rendered.html ?? '');
+        ?.replace('<!--app-head-->', rendered.head ?? '')
+        ?.replace('<!--app-html-->', rendered.html ?? '');
 
       res.status(200).set({ 'Content-Type': 'text/html' }).send(html);
     } catch (e: any) {
@@ -72,7 +76,17 @@ const createServer = async () => {
     }
   });
 
-  app.listen(PORT, '0.0.0.0', () => {
+  const server = http.createServer(app);
+  const io = new Server(server);
+
+  io.on('connection', (socket) => {
+    console.log('a user connected');
+    socket.on('disconnect', () => {
+      console.log('user disconnected');
+    });
+  });
+
+  server.listen(PORT, '0.0.0.0', () => {
     console.info();
     console.info(chalk.cyan(`'${packageJson.name}' listening on port ${chalk.bold(PORT)}`));
     console.info();

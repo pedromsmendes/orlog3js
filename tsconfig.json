@@ -32,12 +32,24 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@/tools/*": [
-        "src/tools/*"
+      "@/client/components/*": [
+        "src/client/components/*"
       ],
-      "@/globals": [
+      "@/client/containers/*": [
+        "src/client/containers/*"
+      ],
+      "@/client/tools/*": [
+        "src/client/tools/*"
+      ],
+      "@/server/tools/*": [
+        "src/server/tools/*"
+      ],
+      "@/shared/globals": [
         "src/globals"
-      ]
+      ],
+      "@/shared/types": [
+        "src/types"
+      ],
     }
   },
   "include": [

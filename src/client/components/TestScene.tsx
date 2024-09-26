@@ -1,9 +1,22 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+
+import { io } from 'socket.io-client';
 
 import * as THREE from 'three';
 import { useHelper } from '@react-three/drei';
 
+import { useMounted } from '../tools/useMounted';
+
 const TestScene = () => {
+  const mounted = useMounted();
+
+  useEffect(() => {
+    if (!mounted) {
+      const socket = io();
+      console.log('🚀 ~ useEffect ~ socket:', socket);
+    }
+  }, [mounted]);
+
   const spotlight = useRef<THREE.SpotLight>(null);
   useHelper(
     // @ts-expect-error Maybe this is wrongly typed but the hook accepts the ref entirely

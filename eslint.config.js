@@ -43,6 +43,19 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 0,
       'comma-dangle': ['error', 'always-multiline'],
       'react/no-unknown-property': 0,
+      'quotes': ['error', 'single', { avoidEscape: true }],
+      '@typescript-eslint/consistent-type-imports': 'error',
+      'no-console': [
+        'warn',
+        {
+          'allow': [
+            'info',
+            'warn',
+            'error',
+            'trace',
+          ],
+        },
+      ],
     },
   },
 );
